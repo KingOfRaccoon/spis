@@ -5,28 +5,37 @@ using namespace std;
 
 void obrabotka(list **start, list **end) {
     list *first, *second;
-    first = *start;
-    second = (*start)->link;
-    *start = (*start)->link->link;
-    if (first->data < second->data) {
-        second->link = nullptr;
-        (*end)->link = second;
-        *end = second;
+    list *temp;
+    if ((*start)->link->link) {
+        first = *start;
+        second = (*start)->link;
+        *start = (*start)->link->link;
+        if (first->data < second->data) {
+            second->link = nullptr;
+            (*end)->link = second;
+            *end = second;
 
-        first->link = nullptr;
-        (*end)->link = first;
-        *end = first;
+            first->link = nullptr;
+            (*end)->link = first;
+            *end = first;
+        } else {
+            first->link = nullptr;
+            (*end)->link = first;
+            *end = first;
+
+            second->link = nullptr;
+            (*end)->link = second;
+            *end = second;
+        }
+    } else {
+        if ((*start)->data < (*start)->link->data){
+            temp = *end;
+            *end = *start;
+            *start = temp;
+            (*start)->link = *end;
+            (*end)->link = nullptr;
+        }
     }
-    else {
-        first->link = nullptr;
-        (*end)->link = first;
-        *end = first;
-
-        second->link = nullptr;
-        (*end)->link = second;
-        *end = second;
-    }
-
 }
 
 void view_spis(list *tec) {
@@ -34,7 +43,6 @@ void view_spis(list *tec) {
         cout << tec->data;
         tec = tec->link;
     } while (tec);
-    return;
 }
 
 void add_spis(telem ch, list **first, list **end) {
@@ -45,12 +53,10 @@ void add_spis(telem ch, list **first, list **end) {
         (*end)->link = nov;
     else *first = nov;
     *end = nov;
-    return;
 }
 
 void init_spis(list **first, list **end) {
     *first = *end = nullptr;
-    return;
 }
 
 void udal_spis(list **first, list **end) {
@@ -62,7 +68,5 @@ void udal_spis(list **first, list **end) {
         delete tec;
     }
     *end = nullptr;
-
-    return;
 }
 
